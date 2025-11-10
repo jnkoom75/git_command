@@ -1,0 +1,65 @@
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+# 1.2 - Initialize the git repo
+cd myapp
+git init
+
+# 1.3 - Create a .gitignore (example)
+echo "node_modules/" >> .gitignore
+echo ".env" >> .gitignore
+
+# 1.4 - See current status (untracked files)
+git status
+
+# 1.5 - Stage files for commit
+git add .
+
+# 1.6 - Commit staged files
+git commit -m "Initial commit: project skeleton"
+
+# 1.7 - Add remote (replace URL with your repo URL)
+git remote add origin git@github.com:youruser/yourrepo.git
+# or HTTPS:
+# git remote add origin https://github.com/youruser/yourrepo.git
+
+# 1.8 - Push main branch to remote (first push may set upstream)
+git branch -M main                    # rename current branch to main (optional)
+git push -u origin main               # -u sets upstream so future git push works
+2) Collaborative workflow (clone, branch, feature, PR)
+Assume someone else created the repo; you clone it and work on a feature branch.
+
+bash
+Copy code
+# 2.1 - Clone the remote repo
+git clone git@github.com:org/repo.git
+cd repo
+
+# 2.2 - See remote config and branches
+git remote -v
+git branch -a
+
+# 2.3 - Create and switch to a new feature branch
+git checkout -b feature/add-login
+
+# 2.4 - Work locally: edit files, then stage & commit
+# (after editing files)
+git status
+git add src/login.js
+git commit -m "Add login form and validation"
+
+# 2.5 - Keep your feature branch up to date with remote main
+git fetch origin
+git checkout main
+git pull origin main        # get latest main
+git checkout feature/add-login
+git merge main              # or: git rebase main
+
+# 2.6 - Push your feature branch to remote
+git push -u origin feature/add-login
+
+# 2.7 - Open a Pull Request on GitHub/GitLab from feature/add-login -> main
+# (review + merge there). After merge, update your local main:
+
+git checkout main
+git pull origin main
